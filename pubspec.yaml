@@ -34,6 +34,10 @@ dependencies:
     sdk: flutter
   chewie: ^1.12.1
   video_player: ^2.7.0
+  go_router: ^14.2.3
+  url_strategy: ^0.2.0
+  flutter_screenutil: ^5.9.3
+  animate_do: ^4.2.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -79,12 +83,17 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: modam
+      fonts:
+        - asset: assets/fonts/Modam-Regular.ttf
+        - asset: assets/fonts/Modam-Medium.ttf
+          weight: 300
+        - asset: assets/fonts/Modam-Bold.ttf
+          weight: 500
+        - asset: assets/fonts/Modam-ExtraBold.ttf
+          weight: 700
+
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
