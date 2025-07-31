@@ -96,9 +96,9 @@ class _WelcomeBackgroundState extends State<WelcomeBackground> {
               ],
             ),
 
-            FadeInDown(
-              delay: Duration(seconds: 1),
-              duration: Duration(milliseconds: 700),
+            FadeInUp(
+              delay: Duration(milliseconds: 500),
+              duration: Duration(milliseconds: 300),
               child: WelcomePage()
             ),
           ],
