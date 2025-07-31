@@ -1,4 +1,5 @@
 import 'package:akafit/view/login_phone.dart';
+import 'package:akafit/view/theme.dart';
 import 'package:akafit/view/welcome/welcome_background.dart';
 import 'package:akafit/view/welcome/welcome_page.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: '/',
           name: 'welcomepage',
-          builder: (context, state) => WelcomePage(),
+          builder: (context, state) => WelcomeBackground(child: SizedBox(),),
         ),
         GoRoute(
           path: '/login',

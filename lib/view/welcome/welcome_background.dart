@@ -77,7 +77,7 @@ class _WelcomeBackgroundState extends State<WelcomeBackground> {
               ),
 
               FadeInUp(
-                delay: Duration(milliseconds: 600),
+                delay: Duration(milliseconds: 700),
                 duration: Duration(milliseconds: 300),
                 child: WelcomePage()
               ),
