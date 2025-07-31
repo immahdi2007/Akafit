@@ -83,7 +83,7 @@ import 'package:akafit/splash_screen.dart';
                 seedColor: Color(0xFF3700B3),
                 primary: Color(0xfff3700B3),
                 secondaryFixed: Color(0xfff6200EE),
-                background: Colors.black,
+                background: Colors.white,
               ),
               scaffoldBackgroundColor: Colors.white,
             ),

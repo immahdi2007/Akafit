@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("آکافیت", style: TextStyle(color: Theme.of(context).colorScheme.background, fontSize: 24.sp.clamp(20, 36)),),
+            Text("آکافیت", style: TextStyle(color: Colors.white, fontSize: 24.sp.clamp(20, 36)),),
             SizedBox(height: sizedBox.medium.h,),
             CircularProgressIndicator(color: Colors.white,)
           ],
