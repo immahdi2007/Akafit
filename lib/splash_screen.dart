@@ -28,13 +28,15 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
+      
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("آکافیت", style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 24.sp.clamp(20, 36)),),
+            Text("آکافیت", style: TextStyle(color: Theme.of(context).colorScheme.background, fontSize: 24.sp.clamp(20, 36)),),
             SizedBox(height: sizedBox.medium.h,),
-            CircularProgressIndicator()
+            CircularProgressIndicator(color: Colors.white,)
           ],
         ),
       ),

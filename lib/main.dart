@@ -72,18 +72,18 @@ import 'package:akafit/splash_screen.dart';
                 ),
                 bodyMedium: TextStyle(
                   color: Colors.white,
-                  fontSize: 16.sp.clamp(12, 24),
+                  fontSize: 16.sp.clamp(12, 20),
                 ),
                 bodyLarge: TextStyle(
                   color: Colors.white,
-                  fontSize: 24.sp.clamp(20, 36),
+                  fontSize: 24.sp.clamp(20, 28),
                 ),
               ),
               colorScheme: ColorScheme.fromSeed(
                 seedColor: Color(0xFF3700B3),
                 primary: Color(0xfff3700B3),
                 secondaryFixed: Color(0xfff6200EE),
-                background: Colors.white,
+                background: Colors.black,
               ),
               scaffoldBackgroundColor: Colors.white,
             ),
