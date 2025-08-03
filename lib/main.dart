@@ -1,5 +1,5 @@
   import 'package:akafit/router.dart';
-import 'package:akafit/splash_screen.dart';
+  import 'package:akafit/splash_screen.dart';
   import 'package:akafit/view/theme.dart';
   import 'package:akafit/view/welcome/welcome_background.dart';
   import 'package:flutter/material.dart';
