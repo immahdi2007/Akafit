@@ -1,4 +1,8 @@
+import 'package:akafit/view/theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 enum ValidatorType { none, phone, password }
 
@@ -24,24 +28,60 @@ class AppTextField extends StatefulWidget {
 
 class _AppTextFieldState extends State<AppTextField> {
   bool obscure = false;
-  String? _erorrText;
+  String? _errorText;
   final FocusNode _focusNode = FocusNode();
   bool _showError = false;
+  String finalEnValeu = '';
+
+  String ToFa(String input) {
+    const en = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    const fa = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    for (int i = 0; i < en.length; i++) {
+      input = input.replaceAll(en[i], fa[i]);
+    }
+    return input;
+  }
+
+  String ToEn(String input) {
+    const en = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    const fa = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    for (int i = 0; i < fa.length; i++) {
+      input = input.replaceAll(fa[i], en[i]);
+    }
+    return input;
+  }
 
   @override
   void initState() {
-    // TODO: implement initState
+    // TODO: implement initState  
     super.initState();
-    // obscure =
+    obscure = isPassword;
 
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
-        final error = validate(widget.controller.text);
+        final error = validate(finalEnValeu);
         setState(() {
           _showError = true;
+          _errorText = error;
         });
       }
     });
+
+    widget.controller.addListener(() {
+      final error = validate(finalEnValeu);
+      if (error != _errorText) {
+        _errorText = error;
+        widget.onErrorChange?.call(error != null);
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _focusNode.dispose();
   }
 
   String? validate(String value) {
@@ -62,22 +102,98 @@ class _AppTextFieldState extends State<AppTextField> {
       if (value.length < 6) {
         return "پسورد باید حداقل 6 حرف داشته باشد";
       }
-    } 
-    // else if (widget.validatorType == ValidatorType.verifyCode) {
-    //   if (value == null || value.isEmpty) {
-    //     return "لطفا کد را وارد کنید";
-    //   }
-    //   final RegExp verificationCodeRegex = RegExp(r'^\d{6}$');
-    //   if (!verificationCodeRegex.hasMatch(value)) {
-    //     return "کد تایید باید ۶ رقم باشد";
-    //   }
-    // }
-
+    }
+    
     return null;
   }
 
+  bool get isPhone => widget.validatorType == ValidatorType.phone;
+  bool get isPassword => widget.validatorType == ValidatorType.password;
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Directionality(
+      textDirection: isPhone ? TextDirection.ltr : TextDirection.rtl,
+      child: Column(
+        children: [
+          TextField(
+            focusNode: _focusNode,
+            controller: widget.controller,
+            onChanged: (value) {
+              finalEnValeu = ToEn(value);
+              final newValue = ToFa(finalEnValeu);
+              final cursorPos = widget.controller.selection;
+              widget.controller.value = TextEditingValue(
+                text: newValue,
+                selection: cursorPos,
+              );
+            },
+            style: TextStyle(fontSize: 20.sp.clamp(16, 24)),
+            obscureText: obscure,
+            keyboardType: isPhone ? TextInputType.numberWithOptions() : TextInputType.text,
+            decoration: InputDecoration(
+              isDense: true,
+              contentPadding: EdgeInsets.zero,
+              filled: true,
+              fillColor: AppColors.grayBg,
+              border: OutlineInputBorder(
+                borderRadius: AppRadius.radius_5,
+                borderSide: BorderSide(
+                  color: (_showError && _errorText != null) ? AppColors.errorColor : AppColors.primary,
+                  width: 1,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: AppRadius.radius_5,
+                borderSide: BorderSide(
+                  color: (_showError && _errorText != null) ? AppColors.errorColor : AppColors.primary,
+                  width: 1,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: AppRadius.radius_5,
+                borderSide: BorderSide(
+                  color: (_showError && _errorText != null) ? AppColors.errorColor : AppColors.primary,
+                  width: 1,
+                ),
+              ),
+
+              hintText: widget.text,
+              hintStyle: TextStyle(color: AppColors.hintColor, fontSize: 16.sp.clamp(12, 20), letterSpacing: -0.5),
+              prefixIcon: Container(
+                margin: EdgeInsets.only(
+                  left: !isPhone ? 0 : 10,
+                  right: isPhone ? 0 : 10,
+                ),
+                child: SvgPicture.network(
+                  widget.text_icon,
+                  width: 20,
+                  height: 20,
+                  fit: BoxFit.contain,
+                  color: AppColors.hintColor,
+                ),
+              ),
+              suffixIcon: isPassword
+                  ? IconButton(
+                      onPressed: () {
+                        setState(() {
+                          obscure = !obscure;
+                        });
+                      },
+                      icon: obscure
+                          ? Icon(Icons.visibility, size: 30.0)
+                          : Icon(Icons.visibility_off, size: 30.0),
+                    )
+                  : null,
+            ),
+          ),
+          if (_showError && _errorText != null)
+            Padding(
+              padding: EdgeInsets.only(top: 8.h),
+              child: Text(_errorText!, style: TextStyle(color: AppColors.errorColor)),
+            ),
+        ],
+      ),
+    );
   }
 }

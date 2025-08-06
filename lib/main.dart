@@ -56,8 +56,8 @@
               fontFamily: 'modam',
               elevatedButtonTheme: ElevatedButtonThemeData(
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Color(0xfff6200EE),
+                  foregroundColor: AppColors.background,
+                  backgroundColor: AppColors.secondary,
                   textStyle: TextStyle(
                     fontFamily: 'modam',
                     fontSize: 24.sp.clamp(20, 36),
@@ -67,25 +67,25 @@
               ),
               textTheme: TextTheme(
                 bodySmall: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.background,
                   fontSize: 12.sp.clamp(8, 16),
                 ),
                 bodyMedium: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.background,
                   fontSize: 16.sp.clamp(12, 20),
                 ),
                 bodyLarge: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.background,
                   fontSize: 24.sp.clamp(20, 28),
                 ),
               ),
               colorScheme: ColorScheme.fromSeed(
-                seedColor: Color(0xFF3700B3),
-                primary: Color(0xfff3700B3),
-                secondaryFixed: Color(0xfff6200EE),
-                background: Colors.white,
+                seedColor: AppColors.primary,
+                primary:  AppColors.primary,
+                secondaryFixed: AppColors.secondary,
+                background: AppColors.background,
               ),
-              scaffoldBackgroundColor: Colors.white,
+              scaffoldBackgroundColor: AppColors.background,
             ),
             routerConfig: appRouter,
             debugShowCheckedModeBanner: false,
