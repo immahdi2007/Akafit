@@ -16,11 +16,31 @@ class LoginPhone extends StatefulWidget {
 }
 
 class _LoginPhoneState extends State<LoginPhone> {
-  loginStep _step = loginStep.name;
+  loginStep _step = loginStep.enterPhone;
+  final FocusNode _focusNode = FocusNode();
 
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _verifyCodeController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        FocusScope.of(context).requestFocus(_focusNode);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _focusNode.dispose();
+
+    super.dispose();
+  }
 
   void _nextStep() {
     setState(() {
@@ -37,8 +57,8 @@ class _LoginPhoneState extends State<LoginPhone> {
   bool get enterName => _step == loginStep.name;
 
   final pinPutTheme = PinTheme(
-    width: 45,
-    height: 55,
+    width: 45.r,
+    height: 55.r,
     decoration: BoxDecoration(
       color: AppColors.grayBg,
       borderRadius: AppRadius.radius_8,
@@ -81,11 +101,17 @@ class _LoginPhoneState extends State<LoginPhone> {
                                 text: enterPhone
                                     ? "شماره تلفن"
                                     : enterName
-                                    ? "نام خود را وارد کنید"
+                                    ? "نام و نام خانوادگی"
                                     : null!,
-                                text_icon: 'assets/icons/num_code.svg',
-                                controller: _phoneController,
-                                validatorType: ValidatorType.phone,
+                                text_icon: enterPhone
+                                    ? 'assets/icons/num_code.svg'
+                                    : "",
+                                controller: enterPhone
+                                    ? _phoneController
+                                    : _nameController,
+                                validatorType: enterPhone
+                                    ? ValidatorType.phone
+                                    : ValidatorType.none,
                                 onErrorChange: (hasError) {},
                               )
                             : enterCode
@@ -93,15 +119,24 @@ class _LoginPhoneState extends State<LoginPhone> {
                                 textDirection: TextDirection.ltr,
                                 child: Pinput(
                                   length: 5,
-                                  pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                                  pinputAutovalidateMode:
+                                      PinputAutovalidateMode.onSubmit,
                                   defaultPinTheme: pinPutTheme,
                                   focusedPinTheme: pinPutTheme.copyWith(
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: AppColors.primary),
+                                      border: Border.all(
+                                        color: AppColors.primary,
+                                      ),
                                       borderRadius: AppRadius.radius_8,
-                                      color: AppColors.grayBg
-                                    )
+                                      color: AppColors.grayBg,
+                                    ),
                                   ),
+                                  showCursor: false,
+                                  controller: _verifyCodeController,
+                                  autofocus: true,
+                                  // focusNode: _focusNode,
+                                  enabled: true,
+                                  readOnly: false,
                                 ),
                               )
                             : null,
@@ -112,7 +147,8 @@ class _LoginPhoneState extends State<LoginPhone> {
                   SizedBox(
                     width: 1.sw.clamp(1.0, 500.0),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      // style: ,
+                      onPressed: _nextStep,
                       child: Text('ارسال کد'),
                     ),
                   ),

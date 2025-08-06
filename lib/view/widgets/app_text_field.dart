@@ -93,7 +93,7 @@ class _AppTextFieldState extends State<AppTextField> {
         r'^((0?9)|(\+?989))((14)|(13)|(12)|(19)|(18)|(17)|(15)|(16)|(11)|(10)|(90)|(91)|(92)|(93)|(94)|(95)|(96)|(32)|(30)|(33)|(35)|(36)|(37)|(38)|(39)|(00)|(01)|(02)|(03)|(04)|(05)|(41)|(20)|(21)|(22)|(23)|(31)|(34)|(9910)|(9911)|(9913)|(9914)|(9999)|(999)|(990)|(9810)|(9811)|(9812)|(9813)|(9814)|(9815)|(9816)|(9817)|(998))\d{7}$',
       );
       if (!ph_regex.hasMatch(value)) {
-        return "شماره همراه نامعتبر است";
+        return "شماره تلفن همراه نامعتبر است";
       }
     } else if (widget.validatorType == ValidatorType.password) {
       if (value == null || value.isEmpty) {
@@ -128,12 +128,12 @@ class _AppTextFieldState extends State<AppTextField> {
                 selection: cursorPos,
               );
             },
-            style: TextStyle(fontSize: 20.sp.clamp(16, 24)),
+            style: TextStyle(fontSize: 16.sp.clamp(16, 24)),
             obscureText: obscure,
             keyboardType: isPhone ? TextInputType.numberWithOptions() : TextInputType.text,
             decoration: InputDecoration(
               isDense: true,
-              contentPadding: EdgeInsets.zero,
+              contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
               filled: true,
               fillColor: AppColors.grayBg,
               border: OutlineInputBorder(
@@ -160,19 +160,19 @@ class _AppTextFieldState extends State<AppTextField> {
 
               hintText: widget.text,
               hintStyle: TextStyle(color: AppColors.hintColor, fontSize: 16.sp.clamp(12, 20), letterSpacing: -0.5),
-              prefixIcon: Container(
-                margin: EdgeInsets.only(
-                  left: !isPhone ? 0 : 10,
-                  right: isPhone ? 0 : 10,
-                ),
-                child: SvgPicture.network(
-                  widget.text_icon,
-                  width: 20,
-                  height: 20,
-                  fit: BoxFit.contain,
-                  color: AppColors.hintColor,
-                ),
-              ),
+              // prefixIcon: Container(
+              //   margin: EdgeInsets.only(
+              //     left: !isPhone ? 0 : 10,
+              //     right: isPhone ? 0 : 10,
+              //   ),
+              //   child: SvgPicture.network(
+              //     widget.text_icon,
+              //     width: 20,
+              //     height: 20,
+              //     fit: BoxFit.contain,
+              //     color: AppColors.hintColor,
+              //   ),
+              // ),
               suffixIcon: isPassword
                   ? IconButton(
                       onPressed: () {
