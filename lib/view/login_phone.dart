@@ -17,7 +17,8 @@ class LoginPhone extends StatefulWidget {
 
 class _LoginPhoneState extends State<LoginPhone> {
   loginStep _step = loginStep.enterPhone;
-  final FocusNode _focusNode = FocusNode();
+  // final FocusNode _focusNode = FocusNode();
+  String _phone_number = '';
 
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _verifyCodeController = TextEditingController();
@@ -27,17 +28,11 @@ class _LoginPhoneState extends State<LoginPhone> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        FocusScope.of(context).requestFocus(_focusNode);
-      }
-    });
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    _focusNode.dispose();
 
     super.dispose();
   }
@@ -91,9 +86,9 @@ class _LoginPhoneState extends State<LoginPhone> {
                             : enterCode
                             ? "کد ورود را وارد کنید"
                             : "نام خود را وارد کنید",
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
-                      SizedBox(height: sizedBox.large.h),
+                      SizedBox(height: sizedBox.medium.h),
                       SizedBox(
                         width: 1.sw.clamp(1.0, 500.0),
                         child: enterPhone || enterName
@@ -117,26 +112,46 @@ class _LoginPhoneState extends State<LoginPhone> {
                             : enterCode
                             ? Directionality(
                                 textDirection: TextDirection.ltr,
-                                child: Pinput(
-                                  length: 5,
-                                  pinputAutovalidateMode:
-                                      PinputAutovalidateMode.onSubmit,
-                                  defaultPinTheme: pinPutTheme,
-                                  focusedPinTheme: pinPutTheme.copyWith(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: AppColors.primary,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "کد تایید برای شماره $_phone_number ارسال شد",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w100,
                                       ),
-                                      borderRadius: AppRadius.radius_8,
-                                      color: AppColors.grayBg,
                                     ),
-                                  ),
-                                  showCursor: false,
-                                  controller: _verifyCodeController,
-                                  autofocus: true,
-                                  // focusNode: _focusNode,
-                                  enabled: true,
-                                  readOnly: false,
+                                    Pinput(
+                                      length: 5,
+                                      pinputAutovalidateMode:
+                                          PinputAutovalidateMode.onSubmit,
+                                      defaultPinTheme: pinPutTheme,
+                                      focusedPinTheme: pinPutTheme.copyWith(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: AppColors.primary,
+                                          ),
+                                          borderRadius: AppRadius.radius_8,
+                                          color: AppColors.grayBg,
+                                        ),
+                                      ),
+                                      errorPinTheme: pinPutTheme.copyWith(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: AppColors.errorColor,
+                                          ),
+                                          borderRadius: AppRadius.radius_8,
+                                          color: AppColors.grayBg,
+                                        ),
+                                      ),
+                                      errorText: "کد ورود ناصحیح میباشد",
+                                      showCursor: false,
+                                      controller: _verifyCodeController,
+                                      autofocus: true,
+                                      // focusNode: _focusNode,
+                                      enabled: true,
+                                      readOnly: false,
+                                    ),
+                                  ],
                                 ),
                               )
                             : null,
@@ -148,7 +163,10 @@ class _LoginPhoneState extends State<LoginPhone> {
                     width: 1.sw.clamp(1.0, 500.0),
                     child: ElevatedButton(
                       // style: ,
-                      onPressed: _nextStep,
+                      onPressed: () {
+                        _nextStep();
+                        _phone_number = _phoneController.text.trim();
+                      },
                       child: Text('ارسال کد'),
                     ),
                   ),

@@ -89,6 +89,8 @@ flutter:
     - family: modam
       fonts:
         - asset: assets/fonts/Modam-Regular.ttf
+        - asset: assets/fonts/Modam-Light.ttf
+        - weight: 100
         - asset: assets/fonts/Modam-Medium.ttf
           weight: 300
         - asset: assets/fonts/Modam-Bold.ttf

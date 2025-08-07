@@ -133,7 +133,7 @@ class _AppTextFieldState extends State<AppTextField> {
             keyboardType: isPhone ? TextInputType.numberWithOptions() : TextInputType.text,
             decoration: InputDecoration(
               isDense: true,
-              contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+              contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 8.w),
               filled: true,
               fillColor: AppColors.grayBg,
               border: OutlineInputBorder(

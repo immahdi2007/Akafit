@@ -78,6 +78,11 @@
                   color: AppColors.background,
                   fontSize: 24.sp.clamp(20, 28),
                 ),
+                titleLarge: TextStyle(
+                  color: AppColors.background,
+                  fontSize: 24.sp.clamp(20, 28),
+                  fontWeight: FontWeight.w500
+                )
               ),
               colorScheme: ColorScheme.fromSeed(
                 seedColor: AppColors.primary,
