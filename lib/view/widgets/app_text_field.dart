@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-enum ValidatorType { none, phone, password }
+enum ValidatorType { none, phone, password, name }
 
 class AppTextField extends StatefulWidget {
   const AppTextField({
@@ -108,6 +108,13 @@ class _AppTextFieldState extends State<AppTextField> {
       }
       if (value.length < 6) {
         return "پسورد باید حداقل 6 حرف داشته باشد";
+      }
+    } else if (widget.validatorType == ValidatorType.name) {
+      if (value == null || value.isEmpty) {
+        return "لطفا حداقل ۳ حرف وارد کنید";
+      }
+      if(value.length < 3){
+        return "لطفا حداقل ۳ حرف وارد کنید";
       }
     }
 

@@ -126,7 +126,7 @@ class _LoginPhoneState extends State<LoginPhone> {
                                     : _nameController,
                                 validatorType: enterPhone
                                     ? ValidatorType.phone
-                                    : ValidatorType.none,
+                                    : ValidatorType.name,
                                 onErrorChange: (hasError) {
                                   setState(() {
                                     _hasError = hasError;
@@ -223,6 +223,7 @@ class _LoginPhoneState extends State<LoginPhone> {
                                 ? null
                                 : () {
                                     _nextStep();
+                                    _hasError = true;
                                     _phone_number = _phoneController.text
                                         .trim();
                                   },
@@ -231,7 +232,13 @@ class _LoginPhoneState extends State<LoginPhone> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            child: Text(enterPhone ? 'ارسال کد' : enterName ? 'تأیید' : ''),
+                            child: Text(
+                              enterPhone
+                                  ? 'ارسال کد'
+                                  : enterName
+                                  ? 'تأیید'
+                                  : '',
+                            ),
                           )
                         : null,
                   ),
@@ -244,21 +251,3 @@ class _LoginPhoneState extends State<LoginPhone> {
     );
   }
 }
-// ButtonStyle(
-//                           backgroundColor: MaterialStateProperty.resolveWith((
-//                             state,
-//                           ) {
-//                             if (state.contains(MaterialState.disabled)) {
-//                               return AppColors.grayBg;
-//                             }
-//                             return AppColors.secondary;
-//                           }),
-//                           foregroundColor: MaterialStateProperty.resolveWith((
-//                             state,
-//                           ) {
-//                             if (state.contains(MaterialState.disabled)) {
-//                               return AppColors.background;
-//                             }
-//                             return AppColors.background;
-//                           }),
-//                         ),
