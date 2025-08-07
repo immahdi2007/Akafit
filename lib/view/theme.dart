@@ -22,3 +22,11 @@ class AppRadius {
   static BorderRadius radius_5 = BorderRadius.circular(5.0);
   static BorderRadius radius_8 = BorderRadius.circular(8.0);
 }
+
+class AppTextStyle {
+  static const TextStyle errorStyle = TextStyle(
+    fontWeight: FontWeight.w100,
+    color: AppColors.errorColor,
+  );
+  
+}

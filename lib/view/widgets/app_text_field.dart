@@ -190,7 +190,7 @@ class _AppTextFieldState extends State<AppTextField> {
           if (_showError && _errorText != null)
             Padding(
               padding: EdgeInsets.only(top: 8.h),
-              child: Text(_errorText!, style: TextStyle(color: AppColors.errorColor)),
+              child: Text(_errorText!, style: AppTextStyle.errorStyle),
             ),
         ],
       ),
