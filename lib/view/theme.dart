@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class sizedBox {
   static const double small = 8.0;
@@ -28,5 +29,11 @@ class AppTextStyle {
     fontWeight: FontWeight.w100,
     color: AppColors.errorColor,
   );
-  
+}
+
+class TextFieldDimes {
+  static final double height = 50.h.clamp(30, 60);
+}
+class ButtonDimes {
+  static final double height = 55.h.clamp(35, 70);
 }

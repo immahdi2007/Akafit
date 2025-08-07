@@ -6,7 +6,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinput/pinput.dart';
-// import 'package:pin_code_fields/pin_code_fields.dart';
 
 enum loginStep { enterPhone, enterCode, name }
 
@@ -26,6 +25,7 @@ class _LoginPhoneState extends State<LoginPhone> {
   final TextEditingController _verifyCodeController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   String? _pinHaseError;
+  bool _hasError = true;
 
   late final PinTheme pinPutTheme;
   late final PinTheme errorPinTheme;
@@ -127,7 +127,11 @@ class _LoginPhoneState extends State<LoginPhone> {
                                 validatorType: enterPhone
                                     ? ValidatorType.phone
                                     : ValidatorType.none,
-                                onErrorChange: (hasError) {},
+                                onErrorChange: (hasError) {
+                                  setState(() {
+                                    _hasError = hasError;
+                                  });
+                                },
                               )
                             : enterCode
                             ? Directionality(
@@ -141,54 +145,54 @@ class _LoginPhoneState extends State<LoginPhone> {
                                       ),
                                     ),
                                     SizedBox(height: sizedBox.medium.h),
-                                    PinCodeFields
-                                    // Pinput(
-                                    //   length: 5,
-                                    //   pinputAutovalidateMode:
-                                    //       PinputAutovalidateMode.disabled,
-                                    //   defaultPinTheme: pinPutTheme,
-                                    //   focusedPinTheme: pinPutTheme.copyWith(
-                                    //     decoration: BoxDecoration(
-                                    //       border: Border.all(
-                                    //         color: AppColors.primary,
-                                    //       ),
-                                    //       borderRadius: AppRadius.radius_8,
-                                    //       color: AppColors.grayBg,
-                                    //     ),
-                                    //   ),
-                                    //   showCursor: false,
-                                    //   focusNode: _pinFocusNode,
-                                    //   controller: _verifyCodeController,
-                                    //   autofocus: true,
-                                    //   enabled: true,
-                                    //   readOnly: false,
-                                    //   onCompleted: (value) {
-                                    //     Future.delayed(
-                                    //       Duration(milliseconds: 100),
-                                    //       () {
-                                    //         _pinFocusNode.requestFocus();
-                                    //       },
-                                    //     );
-                                    //     bool isValid = value == '11111';
-                                    //     if (!isValid) {
-                                    //       setState(() {
-                                    //         _verifyCodeController.clear();
-                                    //         _pinHaseError =
-                                    //             "کد وارد شده ناصحیح میباشد";
-                                    //       });
-                                    //       Future.delayed(
-                                    //         Duration(milliseconds: 100),
-                                    //         () {
-                                    //           _pinFocusNode.requestFocus();
-                                    //         },
-                                    //       );
-                                    //     } else {
-                                    //       setState(() {
-                                    //         _pinHaseError = null;
-                                    //       });
-                                    //     }
-                                    //   },
-                                    // ),
+                                    Pinput(
+                                      length: 5,
+                                      pinputAutovalidateMode:
+                                          PinputAutovalidateMode.disabled,
+                                      defaultPinTheme: pinPutTheme,
+                                      focusedPinTheme: pinPutTheme.copyWith(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: AppColors.secondary,
+                                          ),
+                                          borderRadius: AppRadius.radius_8,
+                                          color: AppColors.grayBg,
+                                        ),
+                                      ),
+                                      showCursor: false,
+                                      focusNode: _pinFocusNode,
+                                      controller: _verifyCodeController,
+                                      autofocus: true,
+                                      enabled: true,
+                                      readOnly: false,
+                                      onCompleted: (value) {
+                                        Future.delayed(
+                                          Duration(milliseconds: 100),
+                                          () {
+                                            _pinFocusNode.requestFocus();
+                                          },
+                                        );
+                                        bool isValid = value == '00000';
+                                        if (!isValid) {
+                                          setState(() {
+                                            _verifyCodeController.clear();
+                                            _pinHaseError =
+                                                "کد وارد شده ناصحیح میباشد";
+                                          });
+                                          Future.delayed(
+                                            Duration(milliseconds: 100),
+                                            () {
+                                              _pinFocusNode.requestFocus();
+                                            },
+                                          );
+                                        } else {
+                                          setState(() {
+                                            _pinHaseError = null;
+                                            _nextStep();
+                                          });
+                                        }
+                                      },
+                                    ),
                                     if (_pinHaseError != null)
                                       Padding(
                                         padding: EdgeInsets.only(
@@ -213,14 +217,23 @@ class _LoginPhoneState extends State<LoginPhone> {
                   Spacer(flex: 3),
                   SizedBox(
                     width: 1.sw.clamp(1.0, 500.0),
-                    child: ElevatedButton(
-                      style: ButtonStyle(),
-                      onPressed: () {
-                        _nextStep();
-                        _phone_number = _phoneController.text.trim();
-                      },
-                      child: Text('ارسال کد'),
-                    ),
+                    child: enterPhone || enterName
+                        ? ElevatedButton(
+                            onPressed: _hasError
+                                ? null
+                                : () {
+                                    _nextStep();
+                                    _phone_number = _phoneController.text
+                                        .trim();
+                                  },
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: Text(enterPhone ? 'ارسال کد' : enterName ? 'تأیید' : ''),
+                          )
+                        : null,
                   ),
                 ],
               ),
@@ -231,3 +244,21 @@ class _LoginPhoneState extends State<LoginPhone> {
     );
   }
 }
+// ButtonStyle(
+//                           backgroundColor: MaterialStateProperty.resolveWith((
+//                             state,
+//                           ) {
+//                             if (state.contains(MaterialState.disabled)) {
+//                               return AppColors.grayBg;
+//                             }
+//                             return AppColors.secondary;
+//                           }),
+//                           foregroundColor: MaterialStateProperty.resolveWith((
+//                             state,
+//                           ) {
+//                             if (state.contains(MaterialState.disabled)) {
+//                               return AppColors.background;
+//                             }
+//                             return AppColors.background;
+//                           }),
+//                         ),

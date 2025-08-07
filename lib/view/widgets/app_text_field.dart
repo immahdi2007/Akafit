@@ -29,7 +29,7 @@ class AppTextField extends StatefulWidget {
 class _AppTextFieldState extends State<AppTextField> {
   bool obscure = false;
   String? _errorText;
-  final FocusNode _focusNode = FocusNode();
+  late FocusNode _focusNode;
   bool _showError = false;
   String finalEnValeu = '';
 
@@ -53,9 +53,11 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   void initState() {
-    // TODO: implement initState  
+    // TODO: implement initState
     super.initState();
     obscure = isPassword;
+
+    _focusNode = FocusNode();
 
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
@@ -67,7 +69,12 @@ class _AppTextFieldState extends State<AppTextField> {
       }
     });
 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
+
     widget.controller.addListener(() {
+      finalEnValeu = ToEn(widget.controller.text);
       final error = validate(finalEnValeu);
       if (error != _errorText) {
         _errorText = error;
@@ -103,7 +110,7 @@ class _AppTextFieldState extends State<AppTextField> {
         return "پسورد باید حداقل 6 حرف داشته باشد";
       }
     }
-    
+
     return null;
   }
 
@@ -116,75 +123,93 @@ class _AppTextFieldState extends State<AppTextField> {
       textDirection: isPhone ? TextDirection.ltr : TextDirection.rtl,
       child: Column(
         children: [
-          TextField(
-            focusNode: _focusNode,
-            controller: widget.controller,
-            onChanged: (value) {
-              finalEnValeu = ToEn(value);
-              final newValue = ToFa(finalEnValeu);
-              final cursorPos = widget.controller.selection;
-              widget.controller.value = TextEditingValue(
-                text: newValue,
-                selection: cursorPos,
-              );
-            },
-            style: TextStyle(fontSize: 16.sp.clamp(16, 24)),
-            obscureText: obscure,
-            keyboardType: isPhone ? TextInputType.numberWithOptions() : TextInputType.text,
-            decoration: InputDecoration(
-              isDense: true,
-              contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
-              filled: true,
-              fillColor: AppColors.grayBg,
-              border: OutlineInputBorder(
-                borderRadius: AppRadius.radius_5,
-                borderSide: BorderSide(
-                  color: (_showError && _errorText != null) ? AppColors.errorColor : AppColors.primary,
-                  width: 1,
+          SizedBox(
+            height: TextFieldDimes.height,
+            child: TextField(
+              focusNode: _focusNode,
+              controller: widget.controller,
+              onChanged: (value) {
+                finalEnValeu = ToEn(value);
+                final newValue = ToFa(finalEnValeu);
+                final cursorPos = widget.controller.selection;
+                widget.controller.value = TextEditingValue(
+                  text: newValue,
+                  selection: cursorPos,
+                );
+              },
+              style: TextStyle(fontSize: 16.sp.clamp(16, 24)),
+              obscureText: obscure,
+              keyboardType: isPhone
+                  ? TextInputType.numberWithOptions()
+                  : TextInputType.text,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 10.h,
+                  horizontal: 10.w,
                 ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: AppRadius.radius_5,
-                borderSide: BorderSide(
-                  color: (_showError && _errorText != null) ? AppColors.errorColor : AppColors.primary,
-                  width: 1,
+                filled: true,
+                fillColor: AppColors.grayBg,
+                border: OutlineInputBorder(
+                  borderRadius: AppRadius.radius_5,
+                  borderSide: BorderSide(
+                    color: (_showError && _errorText != null)
+                        ? AppColors.errorColor
+                        : AppColors.secondary,
+                    width: 1,
+                  ),
                 ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: AppRadius.radius_5,
-                borderSide: BorderSide(
-                  color: (_showError && _errorText != null) ? AppColors.errorColor : AppColors.primary,
-                  width: 1,
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: AppRadius.radius_5,
+                  borderSide: BorderSide(
+                    color: (_showError && _errorText != null)
+                        ? AppColors.errorColor
+                        : AppColors.secondary,
+                    width: 1,
+                  ),
                 ),
-              ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: AppRadius.radius_5,
+                  borderSide: BorderSide(
+                    color: (_showError && _errorText != null)
+                        ? AppColors.errorColor
+                        : AppColors.secondary,
+                    width: 1,
+                  ),
+                ),
 
-              hintText: widget.text,
-              hintStyle: TextStyle(color: AppColors.hintColor, fontSize: 16.sp.clamp(12, 20), fontWeight: FontWeight.w100, letterSpacing: -0.5),
-              // prefixIcon: Container(
-              //   margin: EdgeInsets.only(
-              //     left: !isPhone ? 0 : 10,
-              //     right: isPhone ? 0 : 10,
-              //   ),
-              //   child: SvgPicture.network(
-              //     widget.text_icon,
-              //     width: 20,
-              //     height: 20,
-              //     fit: BoxFit.contain,
-              //     color: AppColors.hintColor,
-              //   ),
-              // ),
-              suffixIcon: isPassword
-                  ? IconButton(
-                      onPressed: () {
-                        setState(() {
-                          obscure = !obscure;
-                        });
-                      },
-                      icon: obscure
-                          ? Icon(Icons.visibility, size: 30.0)
-                          : Icon(Icons.visibility_off, size: 30.0),
-                    )
-                  : null,
+                hintText: widget.text,
+                hintStyle: TextStyle(
+                  color: AppColors.hintColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w100,
+                  letterSpacing: -0.5,
+                ),
+                // prefixIcon: Container(
+                //   margin: EdgeInsets.only(
+                //     left: !isPhone ? 0 : 10,
+                //     right: isPhone ? 0 : 10,
+                //   ),
+                //   child: SvgPicture.network(
+                //     widget.text_icon,
+                //     width: 20,
+                //     height: 20,
+                //     fit: BoxFit.contain,
+                //     color: AppColors.hintColor,
+                //   ),
+                // ),
+                suffixIcon: isPassword
+                    ? IconButton(
+                        onPressed: () {
+                          setState(() {
+                            obscure = !obscure;
+                          });
+                        },
+                        icon: obscure
+                            ? Icon(Icons.visibility, size: 30.0)
+                            : Icon(Icons.visibility_off, size: 30.0),
+                      )
+                    : null,
+              ),
             ),
           ),
           if (_showError && _errorText != null)
