@@ -2,9 +2,11 @@ import 'dart:ui';
 
 import 'package:akafit/view/theme.dart';
 import 'package:akafit/view/widgets/app_text_field.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinput/pinput.dart';
+// import 'package:pin_code_fields/pin_code_fields.dart';
 
 enum loginStep { enterPhone, enterCode, name }
 
@@ -17,7 +19,7 @@ class LoginPhone extends StatefulWidget {
 
 class _LoginPhoneState extends State<LoginPhone> {
   loginStep _step = loginStep.enterPhone;
-  // final FocusNode _focusNode = FocusNode();
+  late FocusNode _pinFocusNode;
   String _phone_number = '';
 
   final TextEditingController _phoneController = TextEditingController();
@@ -31,6 +33,14 @@ class _LoginPhoneState extends State<LoginPhone> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    _pinFocusNode = FocusNode();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _pinFocusNode.requestFocus();
+      }
+    });
+
     pinPutTheme = PinTheme(
       width: 45.r,
       height: 55.r,
@@ -52,7 +62,7 @@ class _LoginPhoneState extends State<LoginPhone> {
   @override
   void dispose() {
     // TODO: implement dispose
-
+    _pinFocusNode.dispose();
     super.dispose();
   }
 
@@ -77,8 +87,8 @@ class _LoginPhoneState extends State<LoginPhone> {
       body: Stack(
         children: [
           BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-            child: Container(color: Colors.transparent),
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Container(color: const Color.fromARGB(28, 0, 0, 0)),
           ),
 
           Padding(
@@ -131,46 +141,66 @@ class _LoginPhoneState extends State<LoginPhone> {
                                       ),
                                     ),
                                     SizedBox(height: sizedBox.medium.h),
-                                    Pinput(
-                                      length: 5,
-                                      pinputAutovalidateMode:
-                                          PinputAutovalidateMode.onSubmit,
-                                      defaultPinTheme: pinPutTheme,
-                                      focusedPinTheme: pinPutTheme.copyWith(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: AppColors.primary,
-                                          ),
-                                          borderRadius: AppRadius.radius_8,
-                                          color: AppColors.grayBg,
-                                        ),
-                                      ),
-                                      showCursor: false,
-                                      controller: _verifyCodeController,
-                                      autofocus: true,
-                                      // focusNode: _focusNode,
-                                      enabled: true,
-                                      readOnly: false,
-                                      onCompleted: (value) {
-                                        bool isValid = value == '11111';
-                                        if (!isValid) {
-                                          setState(() {
-                                            _pinHaseError =
-                                                "کد وارد شده ناصحیح میباشد";
-                                          });
-                                        } else {
-                                          setState(() {
-                                            _pinHaseError = null;
-                                          });
-                                        }
-                                      },
-                                    ),
+                                    PinCodeFields
+                                    // Pinput(
+                                    //   length: 5,
+                                    //   pinputAutovalidateMode:
+                                    //       PinputAutovalidateMode.disabled,
+                                    //   defaultPinTheme: pinPutTheme,
+                                    //   focusedPinTheme: pinPutTheme.copyWith(
+                                    //     decoration: BoxDecoration(
+                                    //       border: Border.all(
+                                    //         color: AppColors.primary,
+                                    //       ),
+                                    //       borderRadius: AppRadius.radius_8,
+                                    //       color: AppColors.grayBg,
+                                    //     ),
+                                    //   ),
+                                    //   showCursor: false,
+                                    //   focusNode: _pinFocusNode,
+                                    //   controller: _verifyCodeController,
+                                    //   autofocus: true,
+                                    //   enabled: true,
+                                    //   readOnly: false,
+                                    //   onCompleted: (value) {
+                                    //     Future.delayed(
+                                    //       Duration(milliseconds: 100),
+                                    //       () {
+                                    //         _pinFocusNode.requestFocus();
+                                    //       },
+                                    //     );
+                                    //     bool isValid = value == '11111';
+                                    //     if (!isValid) {
+                                    //       setState(() {
+                                    //         _verifyCodeController.clear();
+                                    //         _pinHaseError =
+                                    //             "کد وارد شده ناصحیح میباشد";
+                                    //       });
+                                    //       Future.delayed(
+                                    //         Duration(milliseconds: 100),
+                                    //         () {
+                                    //           _pinFocusNode.requestFocus();
+                                    //         },
+                                    //       );
+                                    //     } else {
+                                    //       setState(() {
+                                    //         _pinHaseError = null;
+                                    //       });
+                                    //     }
+                                    //   },
+                                    // ),
                                     if (_pinHaseError != null)
                                       Padding(
-                                        padding: EdgeInsets.only(top: sizedBox.small.h),
-                                        child: Text(
-                                          "لطفا کد را صحیح وارد کنید",
-                                          style: AppTextStyle.errorStyle,
+                                        padding: EdgeInsets.only(
+                                          top: sizedBox.small.h,
+                                        ),
+                                        child: FadeInDown(
+                                          delay: Duration(milliseconds: 0),
+                                          duration: Duration(milliseconds: 100),
+                                          child: Text(
+                                            "لطفا کد را صحیح وارد کنید",
+                                            style: AppTextStyle.errorStyle,
+                                          ),
                                         ),
                                       ),
                                   ],
@@ -184,7 +214,7 @@ class _LoginPhoneState extends State<LoginPhone> {
                   SizedBox(
                     width: 1.sw.clamp(1.0, 500.0),
                     child: ElevatedButton(
-                      // style: ,
+                      style: ButtonStyle(),
                       onPressed: () {
                         _nextStep();
                         _phone_number = _phoneController.text.trim();

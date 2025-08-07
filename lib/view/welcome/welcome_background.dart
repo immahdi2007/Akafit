@@ -58,12 +58,6 @@ class _WelcomeBackgroundState extends State<WelcomeBackground> {
                 ),
               ),
             ),
-            Positioned.fill(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-                child: Container(color: const Color.fromARGB(61, 0, 0, 0)),
-              ),
-            ),
             Column(
               children: [
                 Spacer(flex: 5),

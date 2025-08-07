@@ -133,7 +133,7 @@ class _AppTextFieldState extends State<AppTextField> {
             keyboardType: isPhone ? TextInputType.numberWithOptions() : TextInputType.text,
             decoration: InputDecoration(
               isDense: true,
-              contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 8.w),
+              contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
               filled: true,
               fillColor: AppColors.grayBg,
               border: OutlineInputBorder(
@@ -159,7 +159,7 @@ class _AppTextFieldState extends State<AppTextField> {
               ),
 
               hintText: widget.text,
-              hintStyle: TextStyle(color: AppColors.hintColor, fontSize: 16.sp.clamp(12, 20), letterSpacing: -0.5),
+              hintStyle: TextStyle(color: AppColors.hintColor, fontSize: 16.sp.clamp(12, 20), fontWeight: FontWeight.w100, letterSpacing: -0.5),
               // prefixIcon: Container(
               //   margin: EdgeInsets.only(
               //     left: !isPhone ? 0 : 10,
