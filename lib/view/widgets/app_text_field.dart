@@ -234,28 +234,6 @@ class _AppTextFieldState extends State<AppTextField> {
                 ) : SizedBox(key: ValueKey('empty'),),
               ),
             ),
-          // AnimatedSwitcher(
-          //   duration: const Duration(milliseconds: 300),
-          //   transitionBuilder: (child, animation) {
-          //     return FadeTransition(
-          //       opacity: animation,
-          //       child: SlideTransition(
-          //         position: Tween<Offset>(
-          //           begin: const Offset(0, 0.3), // کمی از پایین بیاد
-          //           end: Offset.zero,
-          //         ).animate(animation),
-          //         child: child,
-          //       ),
-          //     );
-          //   },
-          //   child: _showError && _errorText != null
-          //       ? Text(
-          //           _errorText!,
-          //           key: ValueKey(_errorText), // خیلی مهم برای تشخیص تغییر
-          //           style: AppTextStyle.errorStyle,
-          //         )
-          //       : const SizedBox.shrink(),
-          // ),
         ],
       ),
     );

@@ -216,7 +216,7 @@ class _LoginPhoneState extends State<LoginPhone> {
                                           duration: AppDuration.errorText,
                                           child: _pinHasError != null
                                               ? Text(
-                                                  "لطفا کد را صحیح وارد کنید",
+                                                  _pinHasError!,
                                                   key: ValueKey(_pinHasError),
                                                   style:
                                                       AppTextStyle.errorStyle,
