@@ -25,14 +25,14 @@ final GoRouter appRouter = GoRouter(
               opaque: false,
               child: LoginPhone(), 
               barrierDismissible: false,
-              transitionDuration: Duration(milliseconds: 300),
+              transitionDuration: Duration(milliseconds: 400),
               transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(opacity: animation, child: child,);
               },
             );
           },
         ),
-        
+
       ]
     ),
     

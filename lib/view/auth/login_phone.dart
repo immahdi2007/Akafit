@@ -92,7 +92,7 @@ class _LoginPhoneState extends State<LoginPhone> {
                   Spacer(flex: 1),
                   FadeInUp(
                     key: ValueKey(_step),
-                    curve: Curves.easeInExpo,
+                    curve: Curves.easeOutBack,
                     delay: AppDelay.textFeild,
                     duration: AppDuration.textFeild,
                     child: Column(
@@ -191,14 +191,14 @@ class _LoginPhoneState extends State<LoginPhone> {
                             onPressed: (_hasError)
                                 ? null
                                 : () async {
-                                  
+
                                     if (_isLoading) return;
 
                                     setState(() {
                                       _isLoading = true;
                                     });
 
-                                    await Future.delayed(Duration(seconds: 3));
+                                    await Future.delayed(Duration(seconds: 1));
                                     _phone_number = _phoneController.text
                                         .trim();
                                     _nextStep();

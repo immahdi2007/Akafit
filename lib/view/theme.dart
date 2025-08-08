@@ -47,6 +47,6 @@ class AppDuration {
 
 class AppDelay {
   static const Duration widgets = Duration(milliseconds: 700);
-  static const Duration textFeild = Duration(milliseconds: 200);
+  static const Duration textFeild = Duration(milliseconds: 600);
   static const Duration errorText = Duration(milliseconds: 0);
 }

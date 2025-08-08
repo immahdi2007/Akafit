@@ -45,8 +45,7 @@ class _WelcomeBackgroundState extends State<WelcomeBackground> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
-        child: _controller.value.isInitialized
-            ? Stack(
+        child: Stack(
                 children: [
                   Positioned.fill(
                     child: FittedBox(
@@ -80,14 +79,14 @@ class _WelcomeBackgroundState extends State<WelcomeBackground> {
                   FadeInUp(
                     delay: AppDelay.widgets,
                     duration: AppDuration.widgets,
-                    curve: Curves.easeInExpo,
+                    curve: Curves.easeOutBack,
                     child: WelcomePage(),
                   ),
 
                   if (widget.child is! SizedBox) widget.child,
                 ],
               )
-            : Center(child: CircularProgressIndicator()),
+            ,
       ),
     );
   }
