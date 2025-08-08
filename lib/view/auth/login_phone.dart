@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:akafit/view/animations/animated_visibility.dart';
 import 'package:akafit/view/theme.dart';
 import 'package:akafit/view/widgets/app_text_field.dart';
 import 'package:animate_do/animate_do.dart';
@@ -24,7 +25,7 @@ class _LoginPhoneState extends State<LoginPhone> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _verifyCodeController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  String? _pinHaseError;
+  String? _pinHasError;
   bool _hasError = true;
 
   late final PinTheme pinPutTheme;
@@ -64,14 +65,22 @@ class _LoginPhoneState extends State<LoginPhone> {
     // TODO: implement dispose
     _pinFocusNode.dispose();
     super.dispose();
+    _phoneController.dispose();
+    _verifyCodeController.dispose();
+    _nameController.dispose();
   }
 
   void _nextStep() {
     setState(() {
-      if (_step == loginStep.enterPhone) {
-        _step = loginStep.enterCode;
-      } else if (_step == loginStep.enterCode) {
-        _step = loginStep.name;
+      switch (_step) {
+        case loginStep.enterPhone:
+          _step = loginStep.enterCode;
+          break;
+        case loginStep.enterCode:
+          _step = loginStep.name;
+          break;
+        case loginStep.name:
+          break;
       }
     });
   }
@@ -100,8 +109,9 @@ class _LoginPhoneState extends State<LoginPhone> {
                   Spacer(flex: 1),
                   FadeInUp(
                     key: ValueKey(_step),
-                    delay: Duration(milliseconds: 200),
-                    duration: Duration(milliseconds: 400),
+                    curve: Curves.easeInExpo,
+                    delay: AppDelay.textFeild,
+                    duration: AppDuration.textFeild,
                     child: Column(
                       children: [
                         Text(
@@ -180,7 +190,7 @@ class _LoginPhoneState extends State<LoginPhone> {
                                           if (!isValid) {
                                             setState(() {
                                               _verifyCodeController.clear();
-                                              _pinHaseError =
+                                              _pinHasError =
                                                   "کد وارد شده ناصحیح میباشد";
                                             });
                                             Future.delayed(
@@ -191,28 +201,31 @@ class _LoginPhoneState extends State<LoginPhone> {
                                             );
                                           } else {
                                             setState(() {
-                                              _pinHaseError = null;
+                                              _pinHasError = null;
                                               _nextStep();
                                             });
                                           }
                                         },
                                       ),
-                                      if (_pinHaseError != null)
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                            top: sizedBox.small.h,
-                                          ),
-                                          child: FadeInDown(
-                                            delay: Duration(milliseconds: 0),
-                                            duration: Duration(
-                                              milliseconds: 100,
-                                            ),
-                                            child: Text(
-                                              "لطفا کد را صحیح وارد کنید",
-                                              style: AppTextStyle.errorStyle,
-                                            ),
-                                          ),
+
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          top: sizedBox.small.h,
                                         ),
+                                        child: AnimatedVisibility(
+                                          duration: AppDuration.errorText,
+                                          child: _pinHasError != null
+                                              ? Text(
+                                                  "لطفا کد را صحیح وارد کنید",
+                                                  key: ValueKey(_pinHasError),
+                                                  style:
+                                                      AppTextStyle.errorStyle,
+                                                )
+                                              : SizedBox(
+                                                  key: ValueKey('empty'),
+                                                ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 )

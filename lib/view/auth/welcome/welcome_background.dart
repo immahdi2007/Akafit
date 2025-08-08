@@ -22,7 +22,7 @@ class _WelcomeBackgroundState extends State<WelcomeBackground> {
   @override
   void initState() {
     // TODO: implement initState
-    _controller = VideoPlayerController.network("assets/videos/welcome-gif.mp4")  
+    _controller = VideoPlayerController.network("assets/videos/welcome-gif.mp4")
       ..initialize().then((_) {
         setState(() {});
         _controller.setLooping(true);
@@ -45,47 +45,49 @@ class _WelcomeBackgroundState extends State<WelcomeBackground> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
-        child: _controller.value.isInitialized ?
-         Stack(
-          children: [
-            Positioned.fill(
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: SizedBox(
-                  width: _controller.value.size.width,
-                  height: _controller.value.size.height,
-                  child: VideoPlayer(_controller),
-                ),
-              ),
-            ),
-            Column(
-              children: [
-                Spacer(flex: 5),
-                Expanded(
-                  flex: 8,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [Colors.black, Colors.transparent],
-                        stops: [0.5, 0.9],
+        child: _controller.value.isInitialized
+            ? Stack(
+                children: [
+                  Positioned.fill(
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: SizedBox(
+                        width: _controller.value.size.width,
+                        height: _controller.value.size.height,
+                        child: VideoPlayer(_controller),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                  Column(
+                    children: [
+                      Spacer(flex: 5),
+                      Expanded(
+                        flex: 8,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [Colors.black, Colors.transparent],
+                              stops: [0.5, 0.9],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
 
-            FadeInUp(
-              delay: Duration(milliseconds: 700),
-              duration: Duration(milliseconds: 300),
-              child: WelcomePage(),
-            ),
+                  FadeInUp(
+                    delay: AppDelay.widgets,
+                    duration: AppDuration.widgets,
+                    curve: Curves.easeInExpo,
+                    child: WelcomePage(),
+                  ),
 
-            if (widget.child is! SizedBox) widget.child,
-          ],
-        ) : Center(child: CircularProgressIndicator()),
+                  if (widget.child is! SizedBox) widget.child,
+                ],
+              )
+            : Center(child: CircularProgressIndicator()),
       ),
     );
   }

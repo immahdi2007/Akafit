@@ -1,4 +1,6 @@
+import 'package:akafit/view/animations/animated_visibility.dart';
 import 'package:akafit/view/theme.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -113,7 +115,7 @@ class _AppTextFieldState extends State<AppTextField> {
       if (value == null || value.isEmpty) {
         return "لطفا حداقل ۳ حرف وارد کنید";
       }
-      if(value.length < 3){
+      if (value.length < 3) {
         return "لطفا حداقل ۳ حرف وارد کنید";
       }
     }
@@ -219,11 +221,41 @@ class _AppTextFieldState extends State<AppTextField> {
               ),
             ),
           ),
-          if (_showError && _errorText != null)
+          // if (_showError && _errorText != null)
             Padding(
               padding: EdgeInsets.only(top: 8.h),
-              child: Text(_errorText!, style: AppTextStyle.errorStyle),
+              child:  AnimatedVisibility(
+                duration: AppDuration.errorText,
+                child: (_showError && _errorText != null ) ? 
+                Text(
+                  _errorText!, 
+                  key: ValueKey(_errorText),
+                  style: AppTextStyle.errorStyle
+                ) : SizedBox(key: ValueKey('empty'),),
+              ),
             ),
+          // AnimatedSwitcher(
+          //   duration: const Duration(milliseconds: 300),
+          //   transitionBuilder: (child, animation) {
+          //     return FadeTransition(
+          //       opacity: animation,
+          //       child: SlideTransition(
+          //         position: Tween<Offset>(
+          //           begin: const Offset(0, 0.3), // کمی از پایین بیاد
+          //           end: Offset.zero,
+          //         ).animate(animation),
+          //         child: child,
+          //       ),
+          //     );
+          //   },
+          //   child: _showError && _errorText != null
+          //       ? Text(
+          //           _errorText!,
+          //           key: ValueKey(_errorText), // خیلی مهم برای تشخیص تغییر
+          //           style: AppTextStyle.errorStyle,
+          //         )
+          //       : const SizedBox.shrink(),
+          // ),
         ],
       ),
     );

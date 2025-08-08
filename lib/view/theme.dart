@@ -34,6 +34,19 @@ class AppTextStyle {
 class TextFieldDimes {
   static final double height = 45.h.clamp(30, 55);
 }
+
 class ButtonDimes {
   static final double height = 55.h.clamp(35, 70);
+}
+
+class AppDuration {
+  static const Duration widgets = Duration(milliseconds: 300);
+  static const Duration textFeild = Duration(milliseconds: 400);
+  static const Duration errorText = Duration(milliseconds: 200);
+}
+
+class AppDelay {
+  static const Duration widgets = Duration(milliseconds: 700);
+  static const Duration textFeild = Duration(milliseconds: 200);
+  static const Duration errorText = Duration(milliseconds: 0);
 }
