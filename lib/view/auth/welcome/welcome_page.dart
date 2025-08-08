@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:akafit/view/login_phone.dart';
+import 'package:akafit/view/auth/login_phone.dart';
 import 'package:akafit/view/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

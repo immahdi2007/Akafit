@@ -32,7 +32,7 @@ class AppTextStyle {
 }
 
 class TextFieldDimes {
-  static final double height = 50.h.clamp(30, 60);
+  static final double height = 45.h.clamp(30, 55);
 }
 class ButtonDimes {
   static final double height = 55.h.clamp(35, 70);

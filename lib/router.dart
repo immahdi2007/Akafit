@@ -1,7 +1,7 @@
-import 'package:akafit/view/login_phone.dart';
+import 'package:akafit/view/auth/login_phone.dart';
 import 'package:akafit/view/theme.dart';
-import 'package:akafit/view/welcome/welcome_background.dart';
-import 'package:akafit/view/welcome/welcome_page.dart';
+import 'package:akafit/view/auth/welcome/welcome_background.dart';
+import 'package:akafit/view/auth/welcome/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
