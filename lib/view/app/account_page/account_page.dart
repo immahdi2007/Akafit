@@ -5,6 +5,6 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("profile page", style: TextStyle(color: Colors.black)),);
+    return Center(child: Text("profile setting  page", style: TextStyle(color: Colors.black)),);
   }
 }
