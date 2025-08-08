@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:akafit/view/animations/animated_visibility.dart';
 import 'package:akafit/view/theme.dart';
 import 'package:akafit/view/widgets/app_text_field.dart';
+import 'package:akafit/view/widgets/opt_code.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,6 +22,7 @@ class _LoginPhoneState extends State<LoginPhone> {
   loginStep _step = loginStep.enterPhone;
   late FocusNode _pinFocusNode;
   String _phone_number = '';
+  bool _isLoading = false;
 
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _verifyCodeController = TextEditingController();
@@ -28,8 +30,6 @@ class _LoginPhoneState extends State<LoginPhone> {
   String? _pinHasError;
   bool _hasError = true;
 
-  late final PinTheme pinPutTheme;
-  late final PinTheme errorPinTheme;
   @override
   void initState() {
     // TODO: implement initState
@@ -41,23 +41,6 @@ class _LoginPhoneState extends State<LoginPhone> {
         _pinFocusNode.requestFocus();
       }
     });
-
-    pinPutTheme = PinTheme(
-      width: 45.r,
-      height: 55.r,
-      decoration: BoxDecoration(
-        color: AppColors.grayBg,
-        borderRadius: AppRadius.radius_8,
-      ),
-    );
-
-    errorPinTheme = pinPutTheme.copyWith(
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.errorColor),
-        borderRadius: AppRadius.radius_8,
-        color: AppColors.grayBg,
-      ),
-    );
   }
 
   @override
@@ -159,26 +142,11 @@ class _LoginPhoneState extends State<LoginPhone> {
                                         ),
                                       ),
                                       SizedBox(height: sizedBox.medium.h),
-                                      Pinput(
-                                        length: 5,
-                                        pinputAutovalidateMode:
-                                            PinputAutovalidateMode.disabled,
-                                        defaultPinTheme: pinPutTheme,
-                                        focusedPinTheme: pinPutTheme.copyWith(
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: AppColors.secondary,
-                                            ),
-                                            borderRadius: AppRadius.radius_8,
-                                            color: AppColors.grayBg,
-                                          ),
-                                        ),
-                                        showCursor: false,
+
+                                      OptCodeWidget(
+                                        hasError: _pinHasError,
                                         focusNode: _pinFocusNode,
                                         controller: _verifyCodeController,
-                                        autofocus: true,
-                                        enabled: true,
-                                        readOnly: false,
                                         onCompleted: (value) {
                                           Future.delayed(
                                             Duration(milliseconds: 100),
@@ -207,25 +175,6 @@ class _LoginPhoneState extends State<LoginPhone> {
                                           }
                                         },
                                       ),
-
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          top: sizedBox.small.h,
-                                        ),
-                                        child: AnimatedVisibility(
-                                          duration: AppDuration.errorText,
-                                          child: _pinHasError != null
-                                              ? Text(
-                                                  _pinHasError!,
-                                                  key: ValueKey(_pinHasError),
-                                                  style:
-                                                      AppTextStyle.errorStyle,
-                                                )
-                                              : SizedBox(
-                                                  key: ValueKey('empty'),
-                                                ),
-                                        ),
-                                      ),
                                     ],
                                   ),
                                 )
@@ -239,26 +188,47 @@ class _LoginPhoneState extends State<LoginPhone> {
                     width: 1.sw.clamp(1.0, 500.0),
                     child: enterPhone || enterName
                         ? ElevatedButton(
-                            onPressed: _hasError
+                            onPressed: (_hasError)
                                 ? null
-                                : () {
-                                    _nextStep();
-                                    _hasError = true;
+                                : () async {
+                                  
+                                    if (_isLoading) return;
+
+                                    setState(() {
+                                      _isLoading = true;
+                                    });
+
+                                    await Future.delayed(Duration(seconds: 3));
                                     _phone_number = _phoneController.text
                                         .trim();
+                                    _nextStep();
+
+                                    setState(() {
+                                      _hasError = true;
+                                      _isLoading = false;
+                                    });
                                   },
                             style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            child: Text(
-                              enterPhone
-                                  ? 'ارسال کد'
-                                  : enterName
-                                  ? 'تأیید'
-                                  : '',
-                            ),
+                            child: _isLoading
+                                ? SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.background,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : Text(
+                                    enterPhone
+                                        ? 'ارسال کد'
+                                        : enterName
+                                        ? 'تأیید'
+                                        : '',
+                                  ),
                           )
                         : null,
                   ),

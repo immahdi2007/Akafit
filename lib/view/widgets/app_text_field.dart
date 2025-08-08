@@ -146,15 +146,14 @@ class _AppTextFieldState extends State<AppTextField> {
                   selection: cursorPos,
                 );
               },
-              style: TextStyle(fontSize: 16.sp.clamp(16, 24)),
+              style: TextStyle(fontSize: 16.sp.clamp(10, 24) , fontWeight: FontWeight.w100),
               obscureText: obscure,
               keyboardType: isPhone
                   ? TextInputType.numberWithOptions()
                   : TextInputType.text,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(
-                  vertical: 10.h,
-                  horizontal: 10.w,
+                  horizontal: 10,
                 ),
                 filled: true,
                 fillColor: AppColors.grayBg,
@@ -221,7 +220,6 @@ class _AppTextFieldState extends State<AppTextField> {
               ),
             ),
           ),
-          // if (_showError && _errorText != null)
             Padding(
               padding: EdgeInsets.only(top: 8.h),
               child:  AnimatedVisibility(
