@@ -7,6 +7,7 @@ import 'package:akafit/view/widgets/opt_code.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 
 enum loginStep { enterPhone, enterCode, name }
@@ -63,6 +64,7 @@ class _LoginPhoneState extends State<LoginPhone> {
           _step = loginStep.name;
           break;
         case loginStep.name:
+          context.go('/explore');
           break;
       }
     });
@@ -191,7 +193,6 @@ class _LoginPhoneState extends State<LoginPhone> {
                             onPressed: (_hasError)
                                 ? null
                                 : () async {
-
                                     if (_isLoading) return;
 
                                     setState(() {

@@ -1,3 +1,6 @@
+import 'package:akafit/view/app/account_page/account_page.dart';
+import 'package:akafit/view/app/explore_page/explore_page.dart';
+import 'package:akafit/view/app/main_navigation_bar.dart';
 import 'package:akafit/view/auth/login_phone.dart';
 import 'package:akafit/view/theme.dart';
 import 'package:akafit/view/auth/welcome/welcome_background.dart';
@@ -15,7 +18,7 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: '/',
           name: 'welcomepage',
-          builder: (context, state) => WelcomeBackground(child: SizedBox(),),
+          builder: (context, state) => WelcomeBackground(child: SizedBox()),
         ),
         GoRoute(
           path: '/login',
@@ -23,20 +26,35 @@ final GoRouter appRouter = GoRouter(
           pageBuilder: (context, state) {
             return CustomTransitionPage(
               opaque: false,
-              child: LoginPhone(), 
+              child: LoginPhone(),
               barrierDismissible: false,
-              transitionDuration: Duration(milliseconds: 400),
-              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                return FadeTransition(opacity: animation, child: child,);
-              },
+              transitionDuration: AppDuration.page,
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(opacity: animation, child: child);
+                  },
             );
           },
         ),
-
-      ]
+      ],
     ),
-    
-    
-    
-  ]
+
+    ShellRoute(
+      builder: (context, state, child) {
+        return AppNavigatorBar(child: child);
+      },
+      routes: [
+        GoRoute(
+          path: '/explore',
+          name: 'explorePage',
+          builder: (context, state) => ExplorePage(),
+        ),
+        GoRoute(
+          path: '/account_setting',
+          name: 'accountSettingPage',
+          builder: (context, state) => AccountPage(),
+        ),
+      ],
+    ),
+  ],
 );
