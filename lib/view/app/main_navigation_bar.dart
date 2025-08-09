@@ -30,7 +30,7 @@ class AppNavigatorBarState extends State<AppNavigatorBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.child,
+      body: SafeArea(child: widget.child),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: AppColors.background,
         currentIndex: _currentIndex,

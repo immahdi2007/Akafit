@@ -82,7 +82,7 @@ class _WelcomeBackgroundState extends State<WelcomeBackground> {
                     curve: Curves.easeOutBack,
                     child: WelcomePage(),
                   ),
-
+                  
                   if (widget.child is! SizedBox) widget.child,
                 ],
               )

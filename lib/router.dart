@@ -1,13 +1,19 @@
 import 'package:akafit/view/app/*your_partner/your_partner.dart';
 import 'package:akafit/view/app/account_page/account_page.dart';
 import 'package:akafit/view/app/explore_page/explore_page.dart';
+import 'package:akafit/view/app/explore_page/search_page.dart';
 import 'package:akafit/view/app/main_navigation_bar.dart';
 import 'package:akafit/view/auth/login_phone.dart';
 import 'package:akafit/view/theme.dart';
 import 'package:akafit/view/auth/welcome/welcome_background.dart';
 import 'package:akafit/view/auth/welcome/welcome_page.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> welcomeNavigatorKey =
+    GlobalKey<NavigatorState>();
 
 final GoRouter appRouter = GoRouter(
   routes: [
@@ -21,6 +27,7 @@ final GoRouter appRouter = GoRouter(
           name: 'welcomepage',
           builder: (context, state) => WelcomeBackground(child: SizedBox()),
         ),
+
         GoRoute(
           path: '/login',
           name: 'login',
@@ -48,17 +55,23 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: '/explore',
           name: 'explorePage',
-          pageBuilder: (context, state) => NoTransitionPage(child: ExplorePage()),
+          pageBuilder: (context, state) =>
+              NoTransitionPage(child: ExplorePage()),
+          routes: [
+            GoRoute(path: 'search', builder: (context, state) => SearchPage()),
+          ],
         ),
         GoRoute(
           path: '/account_setting',
           name: 'accountSettingPage',
-          pageBuilder: (context, state) => NoTransitionPage(child: AccountPage()),
+          pageBuilder: (context, state) =>
+              NoTransitionPage(child: AccountPage()),
         ),
         GoRoute(
           path: '/your_partner',
           name: 'your_partner',
-          pageBuilder: (context, state) => NoTransitionPage(child: YourPartner()),
+          pageBuilder: (context, state) =>
+              NoTransitionPage(child: YourPartner()),
         ),
       ],
     ),
