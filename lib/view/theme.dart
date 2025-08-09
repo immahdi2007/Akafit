@@ -39,12 +39,16 @@ class ButtonDimes {
   static final double height = 55.h.clamp(35, 70);
 }
 
+class IconDimes {
+  static final double width = 25.w.clamp(20, 35);
+}
+
 class AppDuration {
   static const Duration widgets = Duration(milliseconds: 300);
   static const Duration textFeild = Duration(milliseconds: 400);
   static const Duration errorText = Duration(milliseconds: 200);
   static const Duration page = Duration(milliseconds: 400);
-  
+  static const Duration icon = Duration(milliseconds: 200);
 }
 
 class AppDelay {

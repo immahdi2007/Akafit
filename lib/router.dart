@@ -1,3 +1,4 @@
+import 'package:akafit/view/app/*your_partner/your_partner.dart';
 import 'package:akafit/view/app/account_page/account_page.dart';
 import 'package:akafit/view/app/explore_page/explore_page.dart';
 import 'package:akafit/view/app/main_navigation_bar.dart';
@@ -47,12 +48,17 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: '/explore',
           name: 'explorePage',
-          builder: (context, state) => ExplorePage(),
+          pageBuilder: (context, state) => NoTransitionPage(child: ExplorePage()),
         ),
         GoRoute(
           path: '/account_setting',
           name: 'accountSettingPage',
-          builder: (context, state) => AccountPage(),
+          pageBuilder: (context, state) => NoTransitionPage(child: AccountPage()),
+        ),
+        GoRoute(
+          path: '/your_partner',
+          name: 'your_partner',
+          pageBuilder: (context, state) => NoTransitionPage(child: YourPartner()),
         ),
       ],
     ),

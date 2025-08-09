@@ -110,6 +110,9 @@ class _MyAppState extends State<MyApp> {
               background: AppColors.background,
             ),
             scaffoldBackgroundColor: AppColors.background,
+            iconTheme: IconThemeData(
+              color: AppColors.hintColor
+            )
           ),
           routerConfig: appRouter,
           debugShowCheckedModeBanner: false,

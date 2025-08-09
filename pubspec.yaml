@@ -72,6 +72,13 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/videos/welcome-gif.mp4
+    - assets/icons/search.svg
+    - assets/icons/search_more.svg
+    - assets/icons/search_filled.svg
+    - assets/icons/user.svg
+    - assets/icons/user_filled.svg
+    - assets/icons/dumbbell.svg
+    - assets/icons/dumbbell_filled.svg
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
